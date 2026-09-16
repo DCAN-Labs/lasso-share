@@ -2,8 +2,13 @@
 
 This repo contains CDNI processing code developed for MRI processing (from BIDS conversion through final XCP-D processed outputs) to be shared collaboratively with Lasso in support of ARIA studies.
 
+## BIDS Conversion
 
-### MSI Paths/Source Files
+**See CDNI documentation for instructions: [NORDIC denoising and Dcm2bids3 NORDIC wrapper](https://cdnis-brain.readthedocs.io/nordic/).**
+
+### Included code
+
+**MSI Paths/Source Files for code included in this repo:**
 
 - `/projects/standard/moser297/shared/projects/PIP/code/proc-step0.sh`
 - `nordic /projects/standard/moser297/shared/projects/PIP/code/proc-step1.sh`
