@@ -1,0 +1,38 @@
+#!/bin/bash
+
+subject=SUB
+session=SES
+summary_dir=SUMMARY
+dicom_dir=DICOMS
+output_path=OUTPUT
+
+# run process
+module load fsl
+module load conda
+source /projects/standard/faird/shared/code/external/envs/miniconda3/load_miniconda3.sh
+
+# OLD BIDS CONVERSION METHOD USE FOR SUBS 1 - 42
+# conda activate py39
+# cd ${summary_dir}
+# python ${summary_dir}/code/init_dev.py -d ${dicom_dir}/${subject} -p ${subject} -s ${session} --heuristic ${summary_dir}/code/heuristic.csv
+# python ${summary_dir}/code/dcm2bids3_dev.py -f ${subject}.tsv -d ${dicom_dir}/${subject} --outdir ${output_path}
+
+conda activate py11
+cd ${summary_dir}
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/convert_helper.py -d ${dicom_dir}/${subject} -p ${subject} -s ${session} -b bids/
+# Bug: For some reason convert_helper.py adds 0 ahead of sesID when creating subject folder in tmp_dcm2bids. 2 July 26 - for subjects after NU060
+# Bug fix:
+temp_dir=${summary_dir}/bids/tmp_dcm2bids/sub-${subject}_ses-0${session}
+if [ -d "$temp_dir" ]; then
+  temp_dir_fixed=${summary_dir}/bids/tmp_dcm2bids/sub-${subject}_ses-${session}
+  echo "temp_dcm2bids folder misalabeled as $temp_dir. Renaming to $temp_dir_fixed."
+  mv $temp_dir $temp_dir_fixed
+fi
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/nii_init_gpt5.py bids/tmp_dcm2bids/sub-${subject}_ses-${session}/ -p ${subject} -s ${session}
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/tsv_to_json.py ${subject}_${session}.tsv
+dcm2bids -p ${subject} -s ${session} -d dicoms/${subject}/ -o bids/ -c ${subject}_${session}.json
+
+
+
+
+

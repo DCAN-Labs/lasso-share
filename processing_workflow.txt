@@ -1,0 +1,201 @@
+###############################
+##### MRI DATA PROCESSING #####
+###############################
+
+### Download DICOMS from NAXOS ###
+
+
+### Run BIDS conversion ###
+
+Move to the BIDS wrapper folder
+
+    cd /projects/standard/lewi1538/shared/projects/neg_urg/code/BIDS_wrapper/
+
+Edit this text file to include the new subjects that need to be processed 
+
+    /projects/standard/lewi1538/shared/projects/neg_urg/code/BIDS_wrapper/subjects_to_process.txt
+
+Rerun run file creation to create the new run files 
+
+    ./make_run_files.sh
+
+Submit the new subject run numbers 
+
+    ./submit_bids.sh <new run numbers>
+
+Wait for all of these jobs to be done before running the next step. This job should take about an hour.
+
+### Run NORDIC ###
+
+Move to the NORDIC wrapper folder
+
+    cd /projects/standard/lewi1538/shared/projects/neg_urg/code/NORDIC_wrapper/
+
+Rerun the run file creation to create the new run files 
+
+    ./make_run_files.sh
+
+Submit the new subject run numbers
+
+    ./submit_nordic.sh <new run numbers>
+
+Wait for all of these jobs to be done before running the next step. This job should take about an hour.
+
+
+### Run anatomical preprocessing wrapper ###
+
+Move to the anat-preproc wrapper folder
+
+    cd /projects/standard/lewi1538/shared/projects/neg_urg/code/anat-preproc_wrapper/
+
+Rerun the run file creation to create the new run files 
+
+    ./make_run_files.sh
+
+Submit the new subject run numbers
+
+    ./submit_preproc.sh <new run numbers>
+
+Wait for all of these jobs to be done before running the next step. This job should take less than an hour.
+
+
+### Run fmriprep ###
+
+Move to the fmriprep wrapper folder
+
+    cd /projects/standard/lewi1538/shared/projects/neg_urg/code/fmriprep_wrapper/
+
+Rerun the run file creation to create the new run files 
+
+    ./make_run_files.sh
+
+Submit the new subject run numbers
+
+    ./submit_process.sh <new run numbers>
+
+Wait for all of these jobs to be done before running the next step. These jobs normally take about 8 hours.
+
+
+### Run XCP-D ###
+
+Move to the XCP-D wrapper folder
+
+    cd /projects/standard/lewi1538/shared/projects/neg_urg/code/xcpd_wrapper/
+
+Edit this text file to include the new subjects that need to be processed 
+
+    /projects/standard/lewi1538/shared/projects/neg_urg/code/xcpd_wrapper/subjects_w_rest.txt
+
+Rerun run file creation to create the new run files 
+
+    ./make_run_files.sh
+
+Submit the new subject run numbers 
+
+    ./submit_xcpd.sh <new run numbers>
+
+Wait for all of these jobs to be done before running the next step. These jobs normally take about 2 hours. 
+
+
+### Run template matching ###
+
+Move to the template matching wrapper folder
+
+    cd /projects/standard/lewi1538/shared/projects/neg_urg/code/template-matching_wrapper/
+
+Rerun run file creation to create the new run files 
+
+    ./make_run_files.sh
+
+Submit the new subject run numbers 
+
+    ./submit_process.sh <new run numbers>
+
+Wait for all of these jobs to be done before running the next step. These jobs normally take about 1 hour. 
+
+### Calculate surface area ###
+
+Move to the calc-SA wrapper folder
+
+    cd /projects/standard/lewi1538/shared/projects/neg_urg/code/calc-SA_wrapper/
+
+Rerun run file creation to create the new run files 
+
+    ./make_run_files.sh
+
+Submit the new subject run numbers 
+
+    ./submit_calcSA.sh <new run numbers>
+
+These jobs should only take about 20 minutes. It should produce these outputs:
+ 
+	/projects/standard/lewi1538/shared/projects/neg_urg/derivatives/template_matching/sub-ID/sub-ID_ses-1_surface_area.mat
+	/projects/standard/lewi1538/shared/projects/neg_urg/derivatives/template_matching/sub-ID/sub-ID_ses-1_surface_area.csv
+
+
+#########################
+##### TASK ANALYSIS #####
+#########################
+
+### Download task file ###
+ 
+On MSI, open a web brower (chromium-browser or firefox) and login to the Lewis-fMRI Box folder
+
+Download the IAPS_GNG_MRI_Cullen_114reps_Final_up-SUBID-1.txt file for the new subjects 
+
+Move and rename the text file to the correct location 
+
+    mv ~/IAPS_GNG_MRI_Cullen_114reps_Final_up-SUBID-1.txt /projects/standard/lewi1538/shared/projects/neg_urg/task_files/event_logs/sub-SUBID_ses-1_event_log.txt
+
+### Convert the event log to an events tsv file ###
+
+	# First be sure you are in the top level of the working directory
+	cd /projects/standard/lewi1538/shared/projects/neg_urg/ 
+
+    python /projects/standard/lewi1538/shared/projects/neg_urg/code/claude_convert_eprime_to_events-tsv.py
+ 
+ - This should create a BIDS folder path in /projects/standard/lewi1538/shared/projects/neg_urg/task_files/event_tsvs/ with the converted events.tsv 
+ - There generally should be 2 events.tsv files created since there are two runs of task per subject - sometimes there is an error with the task so this isn't always true
+
+### Run task analysis ###
+
+You'll want to run two contrasts: Positive - Neutral and Negative - Neutral
+
+	python /projects/standard/lewi1538/shared/projects/neg_urg/code/explore_contrasts.py -t /projects/standard/lewi1538/shared/projects/neg_urg/task_files/event_tsvs/ -d /projects/standard/lewi1538/shared/projects/neg_urg/derivatives/fmriprep -o derivatives/task_analysis/DATE_positive_minus_neutral_subs-01-BIGGESTSUBNUM.nii.gz -c1 Positive -c2 Neutral
+	
+	python /projects/standard/lewi1538/shared/projects/neg_urg/code/explore_contrasts.py -t /projects/standard/lewi1538/shared/projects/neg_urg/task_files/event_tsvs/ -d /projects/standard/lewi1538/shared/projects/neg_urg/derivatives/fmriprep -o derivatives/task_analysis/DATE_negative_minus_neutral_subs-01-BIGGESTSUBNUM.nii.gz -c1 Negative -c2 Neutral
+
+
+### View task analysis outputs ###
+
+First we need to figure out the minimal t-statistic value that gives a significant p-value so we can only view areas of activation that are significantly different between contrasts. We can use this website for that:
+
+https://www.socscistatistics.com/pvalues/tdistribution/calculator/
+
+- Enter degrees of freemdom (the number of subjects included in the analysis minus 1)
+- Play around with the t value until you see a one-sided p value of less than 0.05 (closest number to be under that value)
+	- I recommend starting at like 2 and adjusting from there
+	- For example: if you have 44 degrees of freedom (meaning you have 45 subjects in the analysis), a t-statistic of 1.69 gives you a significant (<0.05) one-tailed p-value. This t-statistic is the closet value to be under 0.05 (1.68 gives a p-value of 0.050023, 1.69 gives 0.049)
+	
+Whatever t-statistic value you find to be significant will be used as a minimal threshold for viewing the data
+
+Now you can load workbench and view the task analysis outputs. You'll need to load it with an underlying preprocessed T1 image (it doesn't matter which subject you pick for this). 
+
+	module load workbench
+	wb_view /projects/standard/lewi1538/shared/projects/neg_urg/derivatives/fmriprep/sub-NU001/sub-NU001/ses-1/anat/sub-NU001_ses-1_run-01_space-MNI152NLin6Asym_desc-preproc_T1w.nii.gz /projects/standard/lewi1538/shared/projects/neg_urg/derivatives/task_analysis/DATE_positive_minus_neutral_subs-01-BIGGESTSUBNUM.nii.gz /projects/standard/lewi1538/shared/projects/neg_urg/derivatives/task_analysis/DATE_negative_minus_neutral_subs-01-BIGGESTSUBNUM.nii.gz
+	
+In the workbench GUI, be sure the T1 image is the bottom-most layer.
+
+For each task analysis output, follow these steps to change the threshold of what data is displayed:
+	- Select the wrench icon next to the task analysis image
+	- Select the PSYCH palette
+	- Select Fixed (default should be on Abs)
+	- Enter the t-statistic as the POS MIN and the negative t-statistic as the NEG MIN
+	- Change the POS MAX and NEG MAX to be like 5 (arbitrary number chosen just so the scale isn't massive)
+	- When you exit out of workbench, save the changes you made to the file so that next time you load the image, these settings are still set up
+
+
+
+
+
+	
