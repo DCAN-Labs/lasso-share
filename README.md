@@ -4,7 +4,10 @@ This repo contains CDNI processing code developed for MRI processing (from BIDS 
 
 ## BIDS Conversion
 
-**See CDNI documentation for instructions: [NORDIC denoising and Dcm2bids3 NORDIC wrapper](https://cdnis-brain.readthedocs.io/nordic/).**
+**See CDNI documentation for instructions:** 
+
+- [DICOM to BIDS Conversion (Dcm2bids)](https://cdnis-brain.readthedocs.io/dcm2bids/)
+- [NORDIC denoising and Dcm2bids3 NORDIC wrapper](https://cdnis-brain.readthedocs.io/nordic/).**
 
 ### Included code
 
