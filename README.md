@@ -7,7 +7,7 @@ This repo contains CDNI processing code developed for MRI processing (from BIDS 
 **See CDNI documentation for instructions:** 
 
 - [DICOM to BIDS Conversion (Dcm2bids)](https://cdnis-brain.readthedocs.io/dcm2bids/)
-- [NORDIC denoising and Dcm2bids3 NORDIC wrapper](https://cdnis-brain.readthedocs.io/nordic/).**
+- [NORDIC denoising and Dcm2bids3 NORDIC wrapper](https://cdnis-brain.readthedocs.io/nordic/)
 
 ### Included code
 
@@ -19,3 +19,7 @@ This repo contains CDNI processing code developed for MRI processing (from BIDS 
 
 
 FIND: `/projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/init.py`
+
+## COMING SOON:
+
+- cuBIDS documentation for BIDS validation - <https://github.com/PennLINC/CuBIDS>
