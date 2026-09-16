@@ -2,6 +2,13 @@
 
 This repo contains CDNI processing code developed for MRI processing (from BIDS conversion through final XCP-D processed outputs) to be shared collaboratively with Lasso in support of ARIA studies.
 
+To include:
+
+- S3 wrappers for slurm parallel processing submissions
+- Computing resources required
+- Running dcm2bids for data that includes mag/phase files for NORDIC denoising followed by cuBIDS BIDS validation
+- MRI processing pipeline workflow: BIBSNet > fMRIPrep > XCP-D
+
 ## BIDS Conversion
 
 **See CDNI documentation for instructions:** 
@@ -26,3 +33,5 @@ FIND: `/projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/ini
 - rae's processing wrappers and scripts from the negative urgency and neonatal studies (to use as a starting point):
     - `/projects/standard/lewi1538/shared/projects/neg_urg/code/`
     - `/projects/standard/csandova/shared/projects/rae_neonatal/code/`
+
+   
