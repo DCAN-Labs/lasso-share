@@ -23,3 +23,6 @@ FIND: `/projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/ini
 ## COMING SOON:
 
 - cuBIDS documentation for BIDS validation - <https://github.com/PennLINC/CuBIDS>
+- rae's processing wrappers and scripts from the negative urgency and neonatal studies (to use as a starting point):
+    - `/projects/standard/lewi1538/shared/projects/neg_urg/code/`
+    - `/projects/standard/csandova/shared/projects/rae_neonatal/code/`
