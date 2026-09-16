@@ -1,0 +1,34 @@
+name: read-status
+channels:
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1
+  - _openmp_mutex=4.5
+  - ca-certificates=2021.5.25
+  - certifi=2021.5.30
+  - ld_impl_linux-64=2.35.1
+  - libffi=3.3
+  - libgcc-ng=9.3.0
+  - libgomp=9.3.0
+  - libstdcxx-ng=9.3.0
+  - ncurses=6.2
+  - openssl=1.1.1k
+  - pip=21.1.2
+  - python=3.9.5
+  - readline=8.1
+  - setuptools=52.0.0
+  - sqlite=3.35.4
+  - tabulate=0.8.9
+  - termcolor=1.1.0
+  - tk=8.6.10
+  - tzdata=2020f
+  - wheel=0.36.2
+  - xz=5.2.5
+  - zlib=1.2.11
+  - pip:
+    - numpy==1.20.3
+    - pandas==1.2.4
+    - python-dateutil==2.8.1
+    - pytz==2021.1
+    - six==1.16.0
+prefix: /projects/standard/faird/shared/code/external/envs/miniconda3/mini3/envs/read-status

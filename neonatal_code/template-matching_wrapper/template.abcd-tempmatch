@@ -1,0 +1,41 @@
+#!/bin/bash
+
+subj_id=SUBID
+ses_id=SESID
+derivs_dir=DERIVS
+output_path=OUTPUT
+singularity=`which singularity`
+
+# create template matching scratch output and workdirs
+if [ ! -d ${output_path}/abcd_template_matching/sub-${subj_id}/ ]; then
+	mkdir -p ${output_path}/abcd_template_matching/sub-${subj_id}/
+fi
+
+## HARDCODE WARNING ##
+FD=0.3
+TR=1.761
+SURF_ONLY=0 #1 for surface-only, 0 to include subcorticals
+ALREADY_SURF_ONLY=0 #only needed if surf_only=1, will scrub out subcortical data
+MASK_PATH="none"
+INFOMAP=0
+TASK=restMENORDIC
+TEMPLATE_PATH='/projects/standard/rando149/shared/projects/ABCD_template_maker/seedmaps_from_template2.0/ABCD_scan_seedmap/seedmaps_subs_withsmoothed_dtseries_n141_all_networksZscored.mat'
+
+## Template Matching command
+/projects/standard/faird/shared/code/internal/analytics/compare_matrices_to_assign_networks/twins_mapping_wrapper_washu_nordic_keepall.sh \
+${TR} \
+${FD} \
+${derivs_dir}/sub-${subj_id}/sub-${subj_id}/ses-${ses_id}/func/sub-${subj_id}_ses-${ses_id}_task-${TASK}_space-fsLR_den-91k_desc-denoised_bold_spatially_interpolated.dtseries.nii \
+${derivs_dir}/sub-${subj_id}/sub-${subj_id}/ses-${ses_id}/func/sub-${subj_id}_ses-${ses_id}_task-${TASK}_desc-abcc_qc_power_2014_FD_only.mat \
+${derivs_dir}/sub-${subj_id}/sub-${subj_id}/ses-${ses_id}/anat/sub-${subj_id}_ses-${ses_id}_run-01_hemi-L_space-fsLR_den-32k_desc-hcp_midthickness.surf.gii \
+${derivs_dir}/sub-${subj_id}/sub-${subj_id}/ses-${ses_id}/anat/sub-${subj_id}_ses-${ses_id}_run-01_hemi-R_space-fsLR_den-32k_desc-hcp_midthickness.surf.gii \
+sub-${subj_id}_ses-${ses_id}_${TEMPLATE}_TM \
+${output_path}/abcd_template_matching/sub-${subj_id}/ \
+${TEMPLATE_PATH} \
+${SURF_ONLY} \
+${ALREADY_SURF_ONLY} \
+${output_path}/abcd_template_matching/sub-${subj_id}/ \
+${derivs_dir}/sub-${subj_id}/sub-${subj_id}/ses-${ses_id}/func/sub-${subj_id}_ses-${ses_id}_task-${TASK}_space-fsLR_den-91k_desc-denoised_bold_spatially_interpolated.dtseries.nii \
+${MASK_PATH} \
+${INFOMAP}
+

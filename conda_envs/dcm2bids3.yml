@@ -1,0 +1,38 @@
+name: dcm2bids3
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1
+  - _openmp_mutex=4.5
+  - bzip2=1.0.8
+  - ca-certificates=2024.8.30
+  - dcm2bids=3.0.2
+  - ld_impl_linux-64=2.38
+  - libffi=3.4.4
+  - libgcc-ng=13.1.0
+  - libgomp=13.1.0
+  - libsqlite=3.41.2
+  - libstdcxx-ng=13.1.0
+  - libuuid=1.41.5
+  - libzlib=1.2.13
+  - llvm-openmp=14.0.6
+  - ncurses=6.4.20240210
+  - openssl=3.3.1
+  - pip=23.2.1
+  - pysimplegui=4.60.5
+  - python=3.10.12
+  - readline=8.2
+  - setuptools=68.0.0
+  - sqlite=3.41.2
+  - tk=8.6.12
+  - tzdata=2023c
+  - wheel=0.38.4
+  - xz=5.4.2
+  - zlib=1.2.13
+  - pip:
+    - dcm2niix==1.0.20250506
+    - nibabel==5.2.1
+    - numpy==2.1.1
+    - packaging==24.1
+prefix: /projects/standard/faird/shared/code/external/envs/miniconda3/mini3/envs/dcm2bids3

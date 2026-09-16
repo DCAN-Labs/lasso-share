@@ -4,12 +4,11 @@
 #SBATCH -c 24
 #SBATCH --mem=50G
 #SBATCH -t 8:00:00
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=fayzu001@umn.edu
+#SBATCH --mail-type=NONE
 #SBATCH -p msismall
 #SBATCH -o output_logs/PIP_proc1_%A_%a.out
 #SBATCH -e output_logs/PIP_proc1_%A_%a.err
-#SBATCH -A moser297
+#SBATCH -A faird
 
 singularity=`which singularity`
 source /projects/standard/faird/shared/code/external/envs/miniconda3/load_miniconda3.sh

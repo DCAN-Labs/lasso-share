@@ -1,0 +1,4 @@
+name: laterality_visualization
+channels:
+  - defaults
+prefix: /projects/standard/faird/shared/code/external/envs/miniconda3/mini3/envs/laterality_visualization

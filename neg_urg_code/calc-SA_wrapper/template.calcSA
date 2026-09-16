@@ -1,0 +1,24 @@
+#!/bin/bash
+
+subid=SUBJECTID
+ses=SESID
+derivs_dir=DERIVS
+
+module load workbench
+module load matlab
+
+run="run-01_"
+L_midthickness="${derivs_dir}/xcpd/sub-${subid}/sub-${subid}/ses-${ses}/anat/sub-${subid}_ses-${ses}_${run}hemi-L_space-fsLR_den-32k_desc-hcp_midthickness.surf.gii"
+
+# run process
+matlab -nodisplay -nosplash -r "addpath(genpath('/projects/standard/faird/shared/code/internal/analytics/compare_matrices_to_assign_networks/network_surface_area/')); surfaceareafromgreyordinates('${derivs_dir}/xcpd/sub-${subid}/sub-${subid}/ses-${ses}/anat/sub-${subid}_ses-${ses}_${run}hemi-L_space-fsLR_den-32k_desc-hcp_midthickness.surf.gii','${derivs_dir}/xcpd/sub-${subid}/sub-${subid}/ses-${ses}/anat/sub-${subid}_ses-${ses}_${run}hemi-R_space-fsLR_den-32k_desc-hcp_midthickness.surf.gii',1,'${derivs_dir}/template_matching/sub-${subid}/sub-${subid}_ses-${ses}_task-restNORDIC_space-fsLR_den-91k_desc-denoised_bold_spatially_interpolated_template_matched_Zscored_scanthresh3_recolored.dscalar.nii','sub-${subid}_ses-${ses}_surface_area','${derivs_dir}/template_matching/sub-${subid}/',1,0,0,''); exit"
+
+source /projects/standard/faird/shared/code/external/envs/miniconda3/load_miniconda3.sh
+conda activate py11 
+python /projects/standard/lewi1538/shared/projects/neg_urg/code/convert_mat_to_csv.py ${derivs_dir}/template_matching/
+
+
+
+
+
+
