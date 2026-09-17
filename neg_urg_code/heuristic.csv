@@ -1,0 +1,4 @@
+lookfor,taskname,type,nTRs,PEdir
+TASK,task,fmri,492,
+revPE,fmap,fmap,90,PA
+PE,fmap,fmap,90,AP
