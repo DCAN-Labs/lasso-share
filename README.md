@@ -9,6 +9,9 @@ To include:
 - Running dcm2bids for data that includes mag/phase files for NORDIC denoising followed by cuBIDS BIDS validation
 - MRI processing pipeline workflow: BIBSNet > fMRIPrep > XCP-D
 
+
+**See draft of [MRI BIDS Conversion & Processing](https://docs.google.com/document/d/1CCugm-_wS9c2b56J_0R6bcqgG_t72ofCpYKIikXt_wY/edit?tab=t.3na71if8sw3w) workflow.**
+
 ---
 
 ## BIDS Conversion
