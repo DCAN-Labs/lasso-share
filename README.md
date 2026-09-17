@@ -9,6 +9,8 @@ To include:
 - Running dcm2bids for data that includes mag/phase files for NORDIC denoising followed by cuBIDS BIDS validation
 - MRI processing pipeline workflow: BIBSNet > fMRIPrep > XCP-D
 
+---
+
 ## BIDS Conversion
 
 **See CDNI documentation for instructions:** 
@@ -18,18 +20,35 @@ To include:
 
 ### Included code
 
-**MSI Paths/Source Files for code included in this repo:**
+#### Generate config for conversion
+See: `BIDS_conversion/src/create_config/*`
+
+Includes K. Weldon's workflow for generating config file automatically from reading DICOM header info; generates a series of JSON and TSV files with sidecar information. 
+
+#### NORDIC denoising
+See: `BIDS_conversion/src/convert/proc_step1.sh`
+
+
+#### Convert to BIDS
+See: `BIDS_conversion/src/convert/dcm2bbids3_dev.py`
+
+
+#### MSI Paths/Source Files for code included in this repo:
 
 - `/projects/standard/moser297/shared/projects/PIP/code/proc-step0.sh`
 - `nordic /projects/standard/moser297/shared/projects/PIP/code/proc-step1.sh`
 - `/projects/standard/faird/shared/code/internal/utilities/cdniproc/dcm2bids3_dev.py`
+- `/projects/standard/moser297/shared/projects/PIP/code/data_prep_bf.sh`
+- `/projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/archive/init.py`
 
 
-FIND: `/projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/init.py`
+---
 
 ## BIDS Validation - cuBIDS [v1.2.1]
 
 We use [cuBIDS](https://cubids.readthedocs.io/en/latest/index.html) for BIDS validation. See [CDNI Brain documentation](https://cdnis-brain.readthedocs.io/bids/). Note that we are only concerned about Errors, not Warnings, although it's helpful to keep both just in case to troubleshoot processing as needed. 
+
+---
 
 ## MRI Processing - COMING SOON:
 
@@ -38,3 +57,5 @@ We use [cuBIDS](https://cubids.readthedocs.io/en/latest/index.html) for BIDS val
     - `/projects/standard/csandova/shared/projects/rae_neonatal/code/`
 
    
+
+
