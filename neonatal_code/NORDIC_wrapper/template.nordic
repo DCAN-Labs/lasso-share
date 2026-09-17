@@ -1,0 +1,14 @@
+#!/bin/bash
+
+subject=SUB
+session=SES
+summary_dir=SUMMARY
+dicom_dir=DICOMS
+output_path=OUTPUT
+
+# run process
+source /projects/standard/faird/shared/code/external/envs/miniconda3/load_miniconda3.sh
+conda activate py39
+cd ${summary_dir}
+python ${summary_dir}/code/runNordic_dev.py -f ${subject}.tsv 
+

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+sub_ses=IDENTITY
+summary_dir=SUMMARY
+dicom_dir=DICOMS
+output_path=OUTPUT
+run_dir=RUNDIR
+
+# run process
+source /projects/standard/faird/shared/code/external/envs/miniconda3/load_miniconda3.sh
+conda activate py39
+cd /projects/standard/csandova/shared/projects/rae_neonatal/
+python /projects/standard/csandova/shared/projects/rae_neonatal/code/dcm2bids3_dev.py -f ${sub_ses}.tsv -d ${dicom_dir}/${sub_ses} --outdir ${output_path}
+
+
+
+
+
+

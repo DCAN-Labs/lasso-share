@@ -1,0 +1,25 @@
+#!/bin/bash
+
+subject=SUBJECT
+input_dir=INPUT
+output_path=OUTPUT
+
+## load dependencies
+module load gcc cuda/11.2
+source /common/software/install/migrated/anaconda/anaconda3-2018.12/etc/profile.d/conda.sh
+module load conda
+conda activate /home/support/public/pytorch_1.11.0_agate
+
+export nnUNet_raw_data_base="/scratch.global/lundq163/SynthSeg_parameter_testing/nnUNet_raw_data_base/"
+export nnUNet_preprocessed="/scratch.global/lundq163/SynthSeg_parameter_testing/nnUNet_raw_data_base/nnUNet_preprocessed/"
+export RESULTS_FOLDER="/projects/standard/faird/shared/data/nnUNet_lundq163/nnUNet_raw_data_base/nnUNet_trained_models/"
+
+if [ ! -d ${output_path}/${subject} ]; then
+	mkdir -p ${output_path}/${subject}
+fi
+
+## Run T1T2 model 
+## old model: 639
+## new model: 643
+nnUNet_predict -i ${input_dir}/${subject} -o ${output_path}/${subject} -t 643 -tr nnUNetTrainerV2_noMirroring -m 3d_fullres --disable_tta
+
