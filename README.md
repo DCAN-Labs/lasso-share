@@ -27,9 +27,12 @@ To include:
 
 FIND: `/projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/init.py`
 
-## COMING SOON:
+## BIDS Validation - cuBIDS
 
-- cuBIDS documentation for BIDS validation - <https://github.com/PennLINC/CuBIDS>
+We use [cuBIDS](https://cubids.readthedocs.io/en/latest/index.html) for BIDS validation. See [CDNI Brain documentation](https://cdnis-brain.readthedocs.io/bids/). Note that we are only concerned about Errors, not Warnings, although it's helpful to keep both just in case to troubleshoot processing as needed. 
+
+## MRI Processing - COMING SOON:
+
 - rae's processing wrappers and scripts from the negative urgency and neonatal studies (to use as a starting point):
     - `/projects/standard/lewi1538/shared/projects/neg_urg/code/`
     - `/projects/standard/csandova/shared/projects/rae_neonatal/code/`
