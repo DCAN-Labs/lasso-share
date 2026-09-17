@@ -1,0 +1,30 @@
+name: intended_for_gui
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1
+  - _openmp_mutex=4.5
+  - bzip2=1.0.8
+  - ca-certificates=2023.5.7
+  - ld_impl_linux-64=2.40
+  - libexpat=2.5.0
+  - libffi=3.4.2
+  - libgcc-ng=13.1.0
+  - libgomp=13.1.0
+  - libnsl=2.0.0
+  - libsqlite=3.42.0
+  - libuuid=2.38.1
+  - libzlib=1.2.13
+  - ncurses=6.4.20240210
+  - openssl=3.1.1
+  - pip=23.1.2
+  - pysimplegui=4.60.5
+  - python=3.11.4
+  - readline=8.2
+  - setuptools=68.0.0
+  - tk=8.6.12
+  - tzdata=2023c
+  - wheel=0.40.0
+  - xz=5.2.6
+prefix: /projects/standard/faird/shared/code/external/envs/miniconda3/mini3/envs/intended_for_gui

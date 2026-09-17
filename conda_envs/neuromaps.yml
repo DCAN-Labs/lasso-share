@@ -1,0 +1,36 @@
+name: neuromaps
+channels:
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1
+  - _openmp_mutex=5.1
+  - bzip2=1.0.8
+  - ca-certificates=2024.9.24
+  - expat=2.6.3
+  - ld_impl_linux-64=2.40
+  - libffi=3.4.4
+  - libgcc-ng=11.2.0
+  - libgomp=11.2.0
+  - libmpdec=4.0.0
+  - libstdcxx-ng=11.2.0
+  - libuuid=1.41.5
+  - libxcb=1.17.0
+  - ncurses=6.4
+  - openssl=3.0.15
+  - pip=24.2
+  - pthread-stubs=0.3
+  - python=3.13.0
+  - python_abi=3.13
+  - readline=8.2
+  - setuptools=75.1.0
+  - sqlite=3.45.3
+  - tk=8.6.14
+  - tzdata=2025b
+  - wheel=0.44.0
+  - xorg-libx11=1.8.12
+  - xorg-libxau=1.0.12
+  - xorg-libxdmcp=1.1.5
+  - xorg-xorgproto=2024.1
+  - xz=5.4.6
+  - zlib=1.2.13
+prefix: /projects/standard/faird/shared/code/external/envs/miniconda3/mini3/envs/neuromaps
