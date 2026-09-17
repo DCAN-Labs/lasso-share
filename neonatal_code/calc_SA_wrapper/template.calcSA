@@ -1,0 +1,30 @@
+#!/bin/bash
+
+subid=SUBJECTID
+ses=SESID
+derivs_dir=DERIVS
+
+module load workbench
+module load matlab
+
+# Check if run-001 surface exists, if not, check if run-002, if not, assume there is no run number
+run="run-01_"
+L_midthickness="${derivs_dir}/xcpd/sub-${subid}/sub-${subid}/ses-${ses}/anat/sub-${subid}_ses-${ses}_${run}hemi-L_space-fsLR_den-32k_desc-hcp_midthickness.surf.gii"
+if [[ ! -f "$L_midthickness" ]]; then
+	run="run-02_"
+	L_midthickness="${derivs_dir}/xcpd/sub-${subid}/sub-${subid}/ses-${ses}/anat/sub-${subid}_ses-${ses}_${run}hemi-L_space-fsLR_den-32k_desc-hcp_midthickness.surf.gii"
+	if [[ ! -f "$L_midthickness" ]]; then
+		run=""
+	fi
+fi
+
+# run process
+matlab -nodisplay -nosplash -r "addpath(genpath('/projects/standard/faird/shared/code/internal/analytics/compare_matrices_to_assign_networks/network_surface_area/')); surfaceareafromgreyordinates('${derivs_dir}/xcpd/sub-${subid}/sub-${subid}/ses-${ses}/anat/sub-${subid}_ses-${ses}_${run}hemi-L_space-fsLR_den-32k_desc-hcp_midthickness.surf.gii','${derivs_dir}/xcpd/sub-${subid}/sub-${subid}/ses-${ses}/anat/sub-${subid}_ses-${ses}_${run}hemi-R_space-fsLR_den-32k_desc-hcp_midthickness.surf.gii',1,'${derivs_dir}/bcp_template_matching/abcd/sub-${subid}/sub-${subid}_ses-${ses}_task-restMENORDIC_space-fsLR_den-91k_desc-denoised_bold_spatially_interpolated_template_matched_Zscored_scanthresh3_recolored.dscalar.nii','sub-${subid}_ses-${ses}_surface_area','${derivs_dir}/bcp_template_matching/abcd/sub-${subid}/',1,0,0,''); exit"
+
+
+
+
+
+
+
+

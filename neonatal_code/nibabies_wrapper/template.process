@@ -1,0 +1,79 @@
+#!/bin/bash
+
+subj_id=SUBID
+ses_id=SESID
+data_dir=DATADIR
+seg_dir=SEGS
+bids_path=INPUT
+output_path=OUTPUT
+run_dir=RUNDIR
+cpu_usage=8
+singularity=`which singularity`
+
+# pull down needed data and files from input bucket
+if [ ! -d ${data_dir}/bids_dir/sub-${subj_id}_ses-${ses_id}/sub-${subj_id}/ses-${ses_id} ]; then
+	mkdir -p ${data_dir}/bids_dir/sub-${subj_id}_ses-${ses_id}/sub-${subj_id}
+	cp ${bids_path}/sub-${subj_id}/ses-${ses_id} ${data_dir}/bids_dir/sub-${subj_id}_ses-${ses_id}/sub-${subj_id} --recursive -v
+fi
+
+if [ ! -e ${data_dir}/bids_dir/sub-${subj_id}_ses-${ses_id}/dataset_description.json ]; then
+	cp ${run_dir}/dataset_description.json ${data_dir}/bids_dir/sub-${subj_id}_ses-${ses_id} -v
+fi
+
+if [ ! -d ${data_dir}/processed/bibsnet/sub-${subj_id}_ses-${ses_id}/anat ]; then
+	mkdir -p ${data_dir}/processed/bibsnet/sub-${subj_id}_ses-${ses_id}/sub-${subj_id}/ses-${ses_id}/anat
+	cp ${seg_dir}/sub-${subj_id}/ses-${ses_id}/anat/ ${data_dir}/processed/bibsnet/sub-${subj_id}_ses-${ses_id}/sub-${subj_id}/ses-${ses_id}/anat/ -v --recursive
+fi
+
+if [ ! -e ${data_dir}/bids_dir/sub-${subj_id}_ses-${ses_id}/participants.tsv ]; then
+	cp ${bids_path}/participants.tsv ${data_dir}/bids_dir/sub-${subj_id}_ses-${ses_id} -v 
+fi
+
+
+# create nibabies scratch output and workdirs
+
+if [ ! -d ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id} ]; then
+	mkdir -p ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id}
+fi
+
+if [ ! -d ${data_dir}/work_dir/nibabies/sub-${subj_id}_ses-${ses_id} ]; then
+	mkdir -p ${data_dir}/work_dir/nibabies/sub-${subj_id}_ses-${ses_id}
+fi
+
+
+nibabies_version=25.1.1
+# #nibabies command  
+env -i ${singularity} run --cleanenv \
+  -B /tmp:/tmp \
+  -B ${data_dir}/bids_dir/sub-${subj_id}_ses-${ses_id}:/bids_dir \
+  -B ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id}:/output_dir \
+  -B ${data_dir}/work_dir/nibabies/sub-${subj_id}_ses-${ses_id}:/wd \
+  -B ${data_dir}/processed/bibsnet/sub-${subj_id}_ses-${ses_id}:/derivatives \
+  -B /projects/standard/faird/shared/code/external/utilities/freesurfer_license/license.txt:/opt/freesurfer/license.txt \
+  /projects/standard/faird/shared/code/external/pipelines/nibabies/nibabies_${nibabies_version}.sif /bids_dir /output_dir participant \
+	--output-spaces MNI152NLin6Asym:res-2 \
+	--fs-license-file /opt/freesurfer/license.txt \
+	--omp-nthreads 3 \
+	--nprocs 8 \
+	--cifti-output 91k \
+	-vv \
+	--project-goodvoxels \
+	--fd-radius 45 \
+	--derivatives /derivatives \
+	--surface-recon-method auto \
+	--multi-step-reg \
+	--norm-csf \
+	-w /wd
+
+if [ ! -d ${output_path}/nibabies/sub-${subj_id}/ ]; then
+	mkdir -p ${output_path}/nibabies/sub-${subj_id}/
+fi
+
+if [ ! -d ${output_path}/nibabies/work_dirs/sub-${subj_id}/ ]; then
+	mkdir -p ${output_path}/nibabies/work_dirs/sub-${subj_id}/
+fi
+
+# push outputs to tier1
+cp -r -v ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id}/* ${output_path}/nibabies/sub-${subj_id}
+cp -r -v ${data_dir}/work_dir/nibabies/sub-${subj_id}_ses-${ses_id}/ ${output_path}/nibabies/work_dirs/sub-${subj_id}
+

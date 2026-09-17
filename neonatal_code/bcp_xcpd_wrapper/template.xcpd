@@ -1,0 +1,74 @@
+#!/bin/bash
+
+subj_id=SUBID
+ses_id=SESID
+ses_int=AGEMO
+data_dir=DATADIR
+input_dir=INPUT
+output_path=OUTPUT
+run_dir=RUNDIR
+cpu_usage=4
+singularity=`which singularity`
+
+# pull down needed data and files from input bucket
+if [ ! -d ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id}/ ]; then
+	mkdir -p ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id}/
+	s3cmd sync ${input_dir}/sub-${subj_id}_ses-${ses_id}/ ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id}/ -v --recursive
+fi
+
+if [ ! -d ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id}/dataset_description.json ]; then
+	cp ${run_dir}/dataset_description.json ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id}/dataset_description.json -v --recursive
+fi
+
+
+# create xcpd scratch output and workdirs
+if [ ! -d ${data_dir}/processed/xcpd/sub-${subj_id}_ses-${ses_id} ]; then
+	mkdir -p ${data_dir}/processed/xcpd/sub-${subj_id}_ses-${ses_id}
+fi
+
+if [ ! -d ${data_dir}/work/xcpd/sub-${subj_id}_ses-${ses_id} ]; then
+	mkdir -p ${data_dir}/work/xcpd/sub-${subj_id}_ses-${ses_id}
+fi
+
+# Determine bandstop filter based on age
+if (( ses_int < 12 )); then
+	bs_min=30
+	bs_max=60
+elif (( ses_int > 24 )); then
+	bs_min=20
+	bs_max=35
+else 
+	bs_min=25
+	bs_max=50
+fi
+
+xcpd_version=0.12.0
+## xcpd command  
+env -i ${singularity} run --cleanenv \
+-B /projects/standard/faird/shared/code/external/utilities/freesurfer_license/license.txt:/opt/freesurfer/license.txt \
+-B ${data_dir}/processed/nibabies/sub-${subj_id}_ses-${ses_id}:/data:ro \
+-B ${data_dir}/work/xcpd/sub-${subj_id}_ses-${ses_id}:/wd \
+-B ${data_dir}/processed/xcpd/sub-${subj_id}_ses-${ses_id}:/out \
+/projects/standard/faird/shared/code/external/pipelines/xcp_d/xcp_d_${xcpd_version}.sif \
+/data /out participant \
+-r auto \
+-f 0.3 \
+--participant-label ${subj_id} \
+--mode hbcd \
+--motion-filter-type notch \
+--band-stop-min ${bs_min} \
+--band-stop-max ${bs_max} \
+--min-time 0 \
+--n-cpus ${cpu_usage} \
+-w /wd
+
+if [ ! -d ${output_path}/xcpd/bcp/ ]; then
+	mkdir -p ${output_path}/xcpd/bcp/
+fi
+
+# Convert motion .hdf5 to .mat
+/projects/standard/faird/shared/code/internal/utilities/xcpd2dcanmotion/run_xcpd2dcanmotion_on_func_dir.sh ${xcpd_dir}/processed/sub-${subj_id}_ses-${ses_id}/sub-${subj_id}/ses-${ses_id}/func
+
+# push outputs to tier1
+cp -r -v ${data_dir}/processed/xcpd/sub-${subj_id}_ses-${ses_id} ${output_path}/xcpd/bcp/
+
