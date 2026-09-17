@@ -1,0 +1,57 @@
+name: pymatlab
+channels:
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1
+  - _openmp_mutex=4.5
+  - ca-certificates=2021.7.5
+  - certifi=2021.5.30
+  - ld_impl_linux-64=2.35.1
+  - libffi=3.3
+  - libgcc-ng=9.3.0
+  - libgomp=9.3.0
+  - libstdcxx-ng=9.3.0
+  - ncurses=6.2
+  - openssl=1.1.1k
+  - python=3.6.13
+  - readline=8.1
+  - setuptools=52.0.0
+  - sqlite=3.35.4
+  - tk=8.6.10
+  - tzdata=2020f
+  - wheel=0.36.2
+  - xz=5.2.5
+  - zlib=1.2.11
+  - pip:
+    - awscli==1.24.10
+    - boto3==1.23.10
+    - botocore==1.26.10
+    - cffi==1.14.6
+    - charset-normalizer==2.0.12
+    - colorama==0.4.4
+    - cryptography==3.4.7
+    - docutils==0.16
+    - idna==3.3
+    - importlib-metadata==4.8.2
+    - importlib-resources==5.4.0
+    - jmespath==0.10.0
+    - mock==4.0.3
+    - nda-tools==0.2.17
+    - packaging==21.3
+    - pip==21.3.1
+    - pyasn1==0.4.8
+    - pycparser==2.20
+    - pyparsing==3.1.4
+    - python-dateutil==2.9.0.post0
+    - pyyaml==5.4.1
+    - requests==2.27.1
+    - rsa==4.7.2
+    - s3transfer==0.5.2
+    - semver==2.13.0
+    - six==1.17.0
+    - spython==0.1.15
+    - tqdm==4.64.0
+    - typing-extensions==4.0.0
+    - urllib3==1.26.10
+    - zipp==3.6.0
+prefix: /projects/standard/faird/shared/code/external/envs/miniconda3/mini3/envs/pymatlab

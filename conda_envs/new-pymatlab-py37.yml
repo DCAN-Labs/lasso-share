@@ -1,0 +1,4 @@
+name: new-pymatlab-py37
+channels:
+  - defaults
+prefix: /projects/standard/faird/shared/code/external/envs/miniconda3/mini3/envs/new-pymatlab-py37

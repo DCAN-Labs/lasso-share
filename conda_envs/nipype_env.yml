@@ -1,0 +1,4 @@
+name: nipype_env
+channels:
+  - defaults
+prefix: /projects/standard/faird/shared/code/external/envs/miniconda3/mini3/envs/nipype_env
