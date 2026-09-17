@@ -27,7 +27,7 @@ To include:
 
 FIND: `/projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/init.py`
 
-## BIDS Validation - cuBIDS
+## BIDS Validation - cuBIDS [v1.2.1]
 
 We use [cuBIDS](https://cubids.readthedocs.io/en/latest/index.html) for BIDS validation. See [CDNI Brain documentation](https://cdnis-brain.readthedocs.io/bids/). Note that we are only concerned about Errors, not Warnings, although it's helpful to keep both just in case to troubleshoot processing as needed. 
 
