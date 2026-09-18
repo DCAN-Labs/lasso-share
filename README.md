@@ -59,6 +59,18 @@ We use [cuBIDS](https://cubids.readthedocs.io/en/latest/index.html) for BIDS val
     - `/projects/standard/lewi1538/shared/projects/neg_urg/code/`
     - `/projects/standard/csandova/shared/projects/rae_neonatal/code/`
 
+- To be added: BIBSNet SLURM wrapper
+- 
+### MRI Processing external dependencies:
+	- ANTs 2.5.4
+	- AFNI 16.1.13
+	- GCC 9.2.0
+    - MATLAB R2019a
+	- FSL 6.0.x
+	- LayNii 2.6.0
+	- Connectome Workbench 2.0.1
+- 
+
    
 
 
