@@ -53,13 +53,10 @@ We use [cuBIDS](https://cubids.readthedocs.io/en/latest/index.html) for BIDS val
 
 ---
 
-## MRI Processing - COMING SOON:
+## MRI Processing
 
-- rae's processing wrappers and scripts from the negative urgency and neonatal studies (to use as a starting point):
-    - `/projects/standard/lewi1538/shared/projects/neg_urg/code/`
-    - `/projects/standard/csandova/shared/projects/rae_neonatal/code/`
+`neg_urg_code`, `neonatal_code`, and `BIBSnet_SE_s3` contain SLURM wrapper templates for various processing steps (e.g. running MP2RAGE denoising, BIBSNet, NORDIC, NiBabies, XCP-D)
 
-- To be added: BIBSNet SLURM wrapper
 ### MRI Processing external dependencies:
 	- ANTs 2.5.4
 	- AFNI 16.1.13
@@ -68,6 +65,7 @@ We use [cuBIDS](https://cubids.readthedocs.io/en/latest/index.html) for BIDS val
 	- FSL 6.0.x
 	- LayNii 2.6.0
 	- Connectome Workbench 2.0.1
+	- NIFTI_NORDIC
 
    
 
