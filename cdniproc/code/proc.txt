@@ -1,0 +1,57 @@
+> data cleaning
+unzip
+check extensions
+
+> run helper
+dcm2bids_helper -d /scratch.global/kweldon/attune/dicoms/GPA42 -o helper_GPA42
+
+outputs: ./helper_GPA/tmp_dcm2bids/helper/stuff.dcm...
+
+mkdir bids/tmp_dcm2bids/sub-GPA42_ses-01
+
+mv ./helper_GPA/tmp_dcm2bids/helper/* ./bids/tmp_dcm2bids/sub-GPA42_ses-01/.
+
+> run dcm2bids
+dcm2bids -p GPA42 -s 01 -d /scratch.global/kweldon/attune/dicoms/GPA42 -c summaries/config.json -o bids
+
+
+>normalize folder and filenames (ses-01 instead of ses-1)
+
+
+>make nordic file
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/tools/make_nordic_cmds_dev.py /scratch.global/kweldon/attune/bids/sub-GPA42/ses-01/func
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/tools/make_nordic_cmds_dev.py /scratch.global/kweldon/attune/bids/sub-GPA42/ses-01/func
+
+
+>run nordic jobs
+sh nordic_cmd_sub-GPA42_ses-01
+
+
+
+>post nordic 
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/tools/postnordic_dev.py /scratch.global/kweldon/attune/bids/sub-GPA24/ses-01
+
+
+
+>intendedfors
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/tools/IntendedFor_dev.py --ses /scratch.global/kweldon/attune/derivatives/nordic/sub-GPA42/ses-01
+
+
+
+>fmriprep + xcpd + interpolate and convert + make input dir
+sbatch proc2.sh GPA42 01
+
+
+
+>pcm
+sbatch run_pcm.sh GPA42 01 fmriprep-24.1.1-xcpd-0.9.1
+
+
+*****post PCM
+>copy files to visualization directory
+>decide what thresholds to use and fill out txt file
+>run threshold_network.sh code
+
+
+
+
