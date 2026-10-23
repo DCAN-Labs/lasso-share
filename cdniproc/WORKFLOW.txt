@@ -1,0 +1,69 @@
+== transfer from naxos ==
+
+> scp -o IdentitiesOnly=yes -r ...-Darrow_RECODE_TCB27 XXXXXX@agate.msi.umn.edu:/projects/standard/darro015/shared/projects/recode/dicoms/TCB27-ses1
+
+== convert ==
+from the parent directory (e.g., /projects/standard/darro015/shared/projects/recode/)
+
+> conda activate py11
+
+> python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/convert_helper.py -d /projects/standard/darro015/shared/projects/recode/dicoms/TCB27-ses1 -p TCB27 -s 1 -b bids
+
+puts nifti files in '/projects/standard/darro015/shared/projects/recode/bids/tmp_dcm2bids/sub-TCB27_ses-01/'
+
+== create summary tsv ==
+
+> python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/nii_init_gpt5.py -p TCB27 -s 1 bids/tmp_dcm2bids/sub-TCB27_ses-01
+
+check it with libreoffice
+
+== create dcm2bids config json file ==
+
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/tsv_to_json.py TCB27-1.tsv
+
+== run dcm2bids ==
+
+dcm2bids -p TCB27 -s 01 -c TCB27_1.json -o bids -d pass
+
+== run make NORDIC commands (resource heavy) ==
+
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/make_nordic_cmds.py /projects/standard/darro015/shared/projects/recode/bids/sub-TCB27/ses-01/func
+
+creates:
+/projects/standard/darro015/shared/projects/recode/nordic_cmd_sub-TCB27_ses-01.sh
+
+== run NORDIC ==
+
+sh /projects/standard/darro015/shared/projects/recode/nordic_cmd_sub-TCB27_ses-01.sh
+
+== post NORDIC cleanup ==
+
+> python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/postnordic.py /projects/standard/darro015/shared/projects/recode/bids/sub-TCB27/ses-01/func
+
+creates ./derivatives/nordic/sub-TCB27 which will be your input for the rest of the pipeline
+
+== set IntendedFors ==
+
+python /projects/standard/faird/shared/code/internal/utilities/cdniproc_v2.0/tools/IntendedFor_new.py /projects/standard/darro015/shared/projects/recode/derivatives/nordic/sub-TCB27/ses-01/
+
+== run fmriprep + xcpd ==
+
+sbatch fmriprep_xcpd.sh TCB27
+
+This script also: 
+-converts hdf5 to .mat
+-converts hdf5 to .tsv
+-interpolates func data
+-creates analysis input folder
+
+== run PCM & template matching ==
+
+sh /projects/standard/darro015/shared/projects/recode/code/submit_PCM.sh TCB27 01 restNORDIC
+
+sh /projects/standard/darro015/shared/projects/recode/code/submit_TM.sh TCB27 01 restNORDIC
+
+== sync
+
+== TOTS
+
+sh /projects/standard/darro015/shared/projects/recode/experiments/sct_work/run_recode_pipeline_kw.sh
