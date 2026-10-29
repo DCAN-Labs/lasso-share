@@ -16,7 +16,7 @@ def run_shell_cmd(cmd):
     return
 
 
-def count_noise_volumes(nifti_file, percentile=90, threshold_ratio=0.5):
+def count_noise_volumes(nifti_file, percentile=98, threshold_ratio=0.5):
     # Load the NIfTI file
     print("Loading this file:", nifti_file)
     img = nib.load(nifti_file)

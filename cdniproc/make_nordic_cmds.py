@@ -16,7 +16,7 @@ def run_shell_cmd(cmd):
     o,e = pipe.communicate()
     return
 
-def count_noise(nifti_file,percentile=90, threshold_ratio=0.5):
+def count_noise(nifti_file,percentile=98, threshold_ratio=0.5):
     # Load the NIfTI file
     img = nib.load(nifti_file)
     data = img.get_fdata()
